@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You, Anne 💛</title>
+  <meta name="description" content="A heartwarming thank-you note." />
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#121a33;
+      --card:#0f1730cc;
+      --text:#eef2ff;
+      --muted:#c7cffc;
+      --gold:#ffd166;
+      --pink:#ff6fae;
+      --mint:#63e6be;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 24px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 0%, rgba(255,209,102,.25), transparent 60%),
+        radial-gradient(900px 700px at 90% 10%, rgba(255,111,174,.18), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(99,230,190,.15), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* Floating hearts canvas */
+    #fx {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .wrap{
+      position:relative;
+      z-index: 1;
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 56px 18px;
+    }
+
+    .shell{
+      width:min(980px, 100%);
+      display:grid;
+      gap:18px;
+    }
+
+    .hero{
+      position:relative;
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, rgba(255,209,102,.12), rgba(255,111,174,.10), rgba(99,230,190,.08));
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 260px at 20% 10%, rgba(255,209,102,.25), transparent 65%),
+        radial-gradient(520px 260px at 85% 25%, rgba(255,111,174,.22), transparent 65%),
+        radial-gradient(520px 260px at 55% 95%, rgba(99,230,190,.18), transparent 70%);
+      filter: blur(10px);
+      opacity:.9;
+    }
+
+    .hero-inner{
+      position:relative;
+      padding: 30px 26px 26px;
+      display:grid;
+      gap: 14px;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 12px;
+      width: fit-content;
+      border-radius: 999px;
+      background: rgba(15,23,48,.45);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .dot{
+      width:10px; height:10px;
+      border-radius:50%;
+      background: var(--mint);
+      box-shadow: 0 0 0 6px rgba(99,230,190,.12);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1); opacity:1}
+      50%{transform:scale(1.35); opacity:.9}
+    }
+
+    h1{
+      margin: 0;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height:1.05;
+      letter-spacing: -.02em;
+    }
+    .sub{
+      margin:0;
+      max-width: 70ch;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns: 1fr}
+    }
+
+    .card{
+      border-radius: var(--radius);
+      background: rgba(15,23,48,.55);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+
+    .note{
+      padding: 22px 20px;
+    }
+    .note h2{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: .02em;
+      color: #f5f7ff;
+      display:flex; align-items:center; gap:10px;
+    }
+    .note p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height:1.7;
+      font-size: 15.5px;
+    }
+    .note p:last-child{margin-bottom:0}
+
+    .sig{
+      margin-top: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(255,255,255,.16);
+      color: rgba(238,242,255,.92);
+      font-size: 14px;
+    }
+    .sig b{color: var(--text)}
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 13px;
+      white-space:nowrap;
+    }
+
+    .side{
+      display:grid;
+      gap: 18px;
+      align-content:start;
+    }
+
+    .mini{
+      padding: 18px;
+    }
+    .mini h3{
+      margin: 0 0 10px;
+      font-size: 15px;
+      letter-spacing: .02em;
+      color: rgba(238,242,255,.95);
+      display:flex; align-items:center; gap:10px;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .chip{
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.08);
+    }
+    .spark{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(255,209,102,.12);
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 14px;
+    }
+    .shot{
+      border-radius: 18px;
+      min-height: 120px;
+      border: 1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(200px 120px at 20% 20%, rgba(255,209,102,.16), transparent 70%),
+        radial-gradient(200px 120px at 80% 40%, rgba(255,111,174,.14), transparent 70%),
+        radial-gradient(220px 140px at 40% 90%, rgba(99,230,190,.12), transparent 70%),
+        rgba(255,255,255,.04);
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      padding: 12px 12px;
+      overflow:hidden;
+      position:relative;
+    }
+    .shot::after{
+      content:"";
+      position:absolute;
+      inset:-40px -60px auto auto;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), transparent 60%);
+      transform: rotate(25deg);
+      opacity:.55;
+    }
+    .shot span{
+      position:relative;
+      z-index:1;
+      font-size: 13px;
+      color: rgba(238,242,255,.9);
+    }
+    .shot small{
+      position:relative;
+      z-index:1;
+      color: rgba(199,207,252,.9);
+      font-size: 12px;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      padding: 14px 18px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(15,23,48,.30);
+    }
+    button{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 650;
+      font-size: 13.5px;
+      color: rgba(15,23,48,.96);
+      background: linear-gradient(135deg, var(--gold), rgba(255,111,174,.95));
+      box-shadow: 0 10px 25px rgba(255,111,174,.18);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    button:hover{transform: translateY(-2px); filter:saturate(1.05)}
+    .ghost{
+      background: rgba(255,255,255,.06);
+      color: rgba(238,242,255,.95);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow:none;
+      font-weight: 600;
+    }
+    .ghost:hover{background: rgba(255,255,255,.09)}
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      background: rgba(15,23,48,.75);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      color: rgba(238,242,255,.95);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 10;
+      font-size: 13px;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .footer{
+      text-align:center;
+      color: rgba(199,207,252,.75);
+      font-size: 12px;
+      padding: 6px 0 0;
+    }
+    .heart{
+      color: var(--pink);
+      filter: drop-shadow(0 10px 18px rgba(255,111,174,.18));
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+
+  <div class="wrap">
+    <div class="shell">
+      <section class="hero card">
+        <div class="hero-inner">
+          <div class="tag">
+            <span class="dot"></span>
+            A small thank-you note from <b>Lin</b> to <b>Anne</b>
+          </div>
+
+          <h1>Thank you, Anne <span class="heart">♥</span></h1>
+          <p class="sub">
+            For the leadership, the patience, the laughs, the learning, and the steady support that made my time at Keeper
+            feel meaningful and memorable.
+          </p>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <div class="note">
+            <h2>💛 A note from me</h2>
+
+            <p>Hi Anne,</p>
+
+            <p>
+              Since you’ll be on PTO next week—and that will also be my last week here at Keeper—I wanted to take a moment
+              to write to you and say thank you.
+            </p>
+
+            <p>
+              Thank you so much for the opportunity and for all the experiences you gave me during my time here. Truly, my
+              expectations for a job and for a boss are set incredibly high now—thanks to you, in the best way possible
+              (hehe).
+            </p>
+
+            <p>
+              You are an amazing leader, an incredible role model, and someone I genuinely look up to. I know I’ll continue
+              to feel inspired by you even after my time at Keeper comes to an end.
+            </p>
+
+            <p>
+              I had the best time working here and learned so much from you and the team. We definitely had our ups and
+              downs, especially with some team changes along the way, but it all pushed me to grow—and I’m grateful for
+              that. Having the opportunity to build and run social from scratch was one of the most valuable learning
+              experiences of my life. From fun trends to big announcements, I truly enjoyed every bit of it.
+            </p>
+
+            <p>
+              Even though my role wasn’t fully focused on comms, I’m thankful I still had the chance to work on PR, comms
+              planning, tracking, and weekly reporting—it helped me grow in ways I didn’t expect.
+            </p>
+
+            <p>
+              Thank you again for choosing me for this experience. It was truly a pleasure working under you, and I adored
+              it so, so, soooo much. I’ll miss you a lot, and I wish you nothing but greater success, happiness, and
+              prosperity in everything ahead.
+            </p>
+
+            <div class="sig">
+              <div>
+                With so much gratitude,<br/>
+                <b>Lin</b>
+              </div>
+              <div class="pill" title="A tiny reminder">
+                <span>✨</span> You made a difference
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="confettiBtn" type="button">Send extra love ✨</button>
+            <button id="copyBtn" class="ghost" type="button">Copy note</button>
+            <button id="printBtn" class="ghost" type="button">Print</button>
+          </div>
+        </article>
+
+        <aside class="side">
+          <div class="card mini">
+            <h3>🌟 Things I’ll always remember</h3>
+            <div class="chips">
+              <div class="chip"><span class="spark"></span> Trust & autonomy</div>
+              <div class="chip"><span class="spark"></span> Calm leadership</div>
+              <div class="chip"><span class="spark"></span> Learning by doing</div>
+              <div class="chip"><span class="spark"></span> Big wins + tiny laughs</div>
+              <div class="chip"><span class="spark"></span> Kind feedback</div>
+              <div class="chip"><span class="spark"></span> Feeling supported</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="mini">
+              <h3>📸 Little “memory tiles”</h3>
+              <p style="margin:0 0 10px; color: var(--muted); line-height:1.6; font-size:13.5px;">
+                Replace these with screenshots, photos, or project moments (optional). For now they’re pretty placeholders.
+              </p>
+            </div>
+            <div class="gallery">
+              <div class="shot">
+                <span>First big launch</span><small>proud moment</small>
+              </div>
+              <div class="shot">
+                <span>Fun trend day</span><small>best laughs</small>
+              </div>
+              <div class="shot">
+                <span>Team collaboration</span><small>learned a lot</small>
+              </div>
+              <div class="shot">
+                <span>“We got this” week</span><small>growth mode</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            Built with gratitude • <span class="heart">♥</span>
+          </div>
+        </aside>
+      </section>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ---------- Toast ----------
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove("show"), 1800);
+    }
+
+    // ---------- Copy / Print ----------
+    const noteText = () => {
+      const el = document.querySelector(".note");
+      return el.innerText.replace(/\n{3,}/g, "\n\n").trim();
+    };
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(noteText());
+        showToast("Copied 💛");
+      }catch(e){
+        showToast("Copy blocked by browser settings");
+      }
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => {
+      window.print();
+    });
+
+    // ---------- Heart + Sparkle FX (canvas) ----------
+    const canvas = document.getElementById("fx");
+    const ctx = canvas.getContext("2d");
+    let W, H, DPR;
+
+    function resize(){
+      DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      W = canvas.width = Math.floor(window.innerWidth * DPR);
+      H = canvas.height = Math.floor(window.innerHeight * DPR);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function heartPath(x, y, s){
+      ctx.beginPath();
+      const topCurveHeight = s * 0.3;
+      ctx.moveTo(x, y + topCurveHeight);
+      ctx.bezierCurveTo(x, y, x - s/2, y, x - s/2, y + topCurveHeight);
+      ctx.bezierCurveTo(x - s/2, y + (s + topCurveHeight)/2, x, y + (s + topCurveHeight)/2, x, y + s);
+      ctx.bezierCurveTo(x, y + (s + topCurveHeight)/2, x + s/2, y + (s + topCurveHeight)/2, x + s/2, y + topCurveHeight);
+      ctx.bezierCurveTo(x + s/2, y, x, y, x, y + topCurveHeight);
+      ctx.closePath();
+    }
+
+    const FLOATERS = [];
+    function makeFloater(burst=false){
+      const size = (burst ? rand(10, 18) : rand(8, 14)) * DPR;
+      return {
+        x: rand(0, W),
+        y: burst ? rand(H*0.2, H*0.9) : H + rand(0, H*0.2),
+        vy: rand(0.4, 1.2) * DPR * (burst ? 1.8 : 1),
+        vx: rand(-0.25, 0.25) * DPR,
+        s: size,
+        rot: rand(-0.6, 0.6),
+        vr: rand(-0.01, 0.01),
+        a: rand(0.25, 0.6),
+        hue: rand(320, 60), // wraps-ish for pink/gold vibe
+        life: burst ? rand(140, 220) : rand(260, 520),
+      };
+    }
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+
+    for(let i=0;i<28;i++) FLOATERS.push(makeFloater(false));
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of FLOATERS){
+        p.x += p.vx;
+        p.y -= p.vy;
+        p.rot += p.vr;
+        p.life -= 1;
+
+        // wrap
+        if(p.y < -40*DPR || p.life < 0){
+          Object.assign(p, makeFloater(false));
+        }
+        if(p.x < -40*DPR) p.x = W + 40*DPR;
+        if(p.x > W + 40*DPR) p.x = -40*DPR;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+
+        // subtle gradient fill
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, p.s);
+        g.addColorStop(0, `hsla(${p.hue}, 90%, 75%, ${p.a})`);
+        g.addColorStop(1, `hsla(${(p.hue+20)%360}, 90%, 55%, ${p.a*0.85})`);
+        ctx.fillStyle = g;
+        ctx.shadowColor = `hsla(${p.hue}, 90%, 70%, ${p.a})`;
+        ctx.shadowBlur = 18 * DPR;
+
+        heartPath(0, 0, p.s);
+        ctx.fill();
+        ctx.restore();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // ---------- "Send extra love" burst ----------
+    document.getElementById("confettiBtn").addEventListener("click", () => {
+      for(let i=0;i<24;i++){
+        FLOATERS.push(makeFloater(true));
+      }
+      // trim so it doesn't grow forever
+      while(FLOATERS.length > 70) FLOATERS.shift();
+      showToast("Extra love delivered ✨");
+    });
+  </script>
+</body>
+</html>
